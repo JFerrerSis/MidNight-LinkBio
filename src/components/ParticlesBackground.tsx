@@ -42,10 +42,10 @@ export const ParticlesBackground = ({ theme }: { theme: string }) => {
         },
         particles: {
           color: {
-            value: theme === 'dark' ? "#00B8A0" : "#333333",
+            value: theme === 'dark' ? "#00B8A0" : "#00B8A0",
           },
           links: {
-            color: theme === 'dark' ? "#00B8A0" : "#333333",
+            color: theme === 'dark' ? "#00B8A0" : "#00B8A0",
             distance: 150,
             enable: true,
             opacity: 0.3,
