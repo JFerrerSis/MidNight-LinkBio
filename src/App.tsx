@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import logoDark from './assets/logoN.png';
+import logoDark from './assets/logo-dark.png';
 import logoLight from './assets/logo-light.png';
 import { Instagram, ExternalLink, Send, Sun, Moon, Clock, Image } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
