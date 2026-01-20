@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import logoDark from './assets/logoN.png';
 import logoLight from './assets/logo-light.png';
-import { Instagram, ExternalLink, Send, Sun, Moon, Clock } from 'lucide-react';
+import { Instagram, ExternalLink, Send, Sun, Moon, Clock, Image } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LinkCard } from './components/LinkCard';
 import { ParticlesBackground } from './components/ParticlesBackground'; 
@@ -16,6 +16,8 @@ const DATA: UserConfig = {
     { id: '1', title: 'Atencion WhatsApp', url: 'https://wa.me/584246498029?text=Hola%20MidNight%20Studio!%20Vengo%20de%20tu%20LinkBio%20y%20quisiera%20hacer%20una%20consulta.', icon: Send },
     { id: '2', title: 'Catalogo', url: '#', icon: ExternalLink },
     { id: '3', title: 'Instagram', url: 'https://www.instagram.com/midnighttstudio/.', icon: Instagram },
+    { id: '4', title: 'Imagen Converter', url: 'https://imagen-converter.vercel.app/', icon: Image },
+
   ]
 };
 
