@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import logoDark from './assets/logo-dark.png';
-import logoLight from './assets/logo-light.png';
+import logoDark from './assets/logodark.png';
+import logoLight from './assets/logolight.png';
 import { Instagram, ExternalLink, Send, Sun, Moon, Clock, Image } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LinkCard } from './components/LinkCard';
