@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00B8A0;
+  --color-primary-glow: rgba(0, 184, 160, 0.3);
+  
+  --animate-spin-slow: spin-slow 8s linear infinite;
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+/* Variables de Modo Claro / Oscuro */
+:root {
+  --bg-main: #ffffff;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --bg-main: #050505;
+  --text-main: #ffffff;
+  --text-muted: #a1a1a1;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
