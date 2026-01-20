@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "vite",
+  "build": "vite build", 
+  "lint": "eslint .",
+  "preview": "vite preview"
+},
   "dependencies": {
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
