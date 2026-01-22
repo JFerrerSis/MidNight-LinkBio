@@ -13,11 +13,14 @@
 
 /* Variables de Modo Claro / Oscuro */
 :root {
-  --bg-main: #ffffff;
-  --text-main: #1a1a1a;
-  --text-muted: #666666;
-  --glass-bg: rgba(0, 0, 0, 0.05);
-  --glass-border: rgba(0, 0, 0, 0.1);
+  /* Fondo "Gris Vapor": Notable contraste con el blanco de las tarjetas */
+  --bg-main: #e2e8f0; 
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  
+  /* Glass en modo claro: Muy blanco y opaco para que destaque sobre el fondo gris */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
 }
 
 [data-theme='dark'] {
@@ -31,7 +34,7 @@
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s ease;
   min-height: 100vh;
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -39,6 +42,20 @@ body {
 
 @utility glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) saturate(150%);
   border: 1px solid var(--glass-border);
+  /* Sombra más marcada para separar los elementos del fondo gris */
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Scrollbar personalizado MidNight */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: #00B8A0;
+  border-radius: 20px;
 }

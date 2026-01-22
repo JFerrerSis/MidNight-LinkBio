@@ -59,7 +59,7 @@ export const ParticlesBackground = ({ theme }: { theme: string }) => {
           },
           number: {
             density: { enable: true },
-            value: 80,
+            value: 100,
           },
           opacity: {
             value: 0.5,
