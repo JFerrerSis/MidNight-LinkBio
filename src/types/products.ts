@@ -55,7 +55,7 @@ export const PRODUCTS = [
   },
   {
     id: '00002',
-    name: "Tazas Mágicas Negras 11oz",
+    name: "Tazas Mágicas Negras Estampada",
     price: "8.00",
     image: tazaM,
     category: "Tazas"

@@ -181,7 +181,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                 ${product.price}
               </span>
               <button 
-                onClick={() => window.open(`https://wa.me/584246498029?text=Hola! 👋 Me interesa el producto: *${product.name}* (#${product.id})`, '_blank')}
+                onClick={() => window.open(`https://wa.me/584246498029?text=Hola MidNight! 👋 Me interesa el producto: *${product.name}* (#${product.id})`, '_blank')}
                 className="p-3 rounded-xl bg-[#00B8A0] text-black shadow-lg hover:rotate-6 active:scale-90 transition-all"
               >
                 <ShoppingBag size={20} />
