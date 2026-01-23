@@ -69,8 +69,8 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="z-10 w-full max-w-7xl px-4 py-10 flex flex-col items-center min-h-screen"
     >
-      {/* Header Corregido y Cuadrado */}
-      <div className="w-full flex items-center justify-between mb-8 max-w-5xl px-2">
+      {/* Header Corregido */}
+      <div className="w-full flex items-center justify-between mb-8 max-w-5xl px-2 gap-2">
         {/* Botón de Atrás */}
         <button 
           onClick={onBack} 
@@ -86,21 +86,24 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
             animate={{ scale: 1, opacity: 1 }}
             src={theme === 'dark' ? logoDark : logoLight} 
             alt="MidNight Logo" 
-            className="h-25 sm:h-15 w-auto object-contain" // Quitamos sombras raras para que cuadre mejor
+            className="h-16 sm:h-15 w-auto object-contain" 
           />
           
           <div className="flex flex-col justify-center leading-none">
-            <h2 className={`text-xl sm:text-3xl font-black tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+            <h2 className={`text-lg sm:text-3xl font-black tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
               NUESTRO
             </h2>
-            <h2 className="text-xl sm:text-3xl font-black tracking-tighter text-[#00B8A0]">
+            <h2 className="text-lg sm:text-3xl font-black tracking-tighter text-[#00B8A0]">
               CATÁLOGO
             </h2>
           </div>
         </div>
 
-        {/* Espaciador invisible para mantener el centro perfecto */}
-        <div className="w-[48px] shrink-0" /> 
+        {/* CUADRO TASA EURO (Sustituye al espaciador) */}
+        <div className="px-4 py-2 rounded-2xl glass border border-[#00B8A0]/30 flex flex-col items-center justify-center shrink-0 min-w-[80px] sm:min-w-[100px]">
+          <span className="text-[9px] sm:text-[10px] font-black text-[#00B8A0] uppercase tracking-wider">Tasa BCV</span>
+          <span className={`text-xs sm:text-sm font-black ${theme === 'dark' ? 'text-white' : 'text-black'}`}>EURO</span>
+        </div>
       </div>
 
       {/* Buscador y Filtros */}
