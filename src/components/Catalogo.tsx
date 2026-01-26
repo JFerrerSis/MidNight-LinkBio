@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Search, Share2, X } from 'lucide-react';
 import { PRODUCTS } from '../types/products';
 
-
 const fuzzyMatch = (text: string, query: string) => {
   const q = query.toLowerCase().replace(/\s/g, '');
   const t = text.toLowerCase().replace(/\s/g, '');
@@ -55,42 +54,52 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="z-10 w-full max-w-7xl px-4 py-10 flex flex-col items-center min-h-screen"
+      className="z-10 w-full max-w-7xl px-4 flex flex-col items-center min-h-screen relative"
     >
-      {/* Header Corregido: Sin logo y con título en línea recta */}
-      <div className="w-full flex items-center justify-between mb-8 max-w-5xl px-2 gap-2">
+      {/* Header Fijo (Sticky) */}
+      <div className="sticky top-0 z-50 w-full pt-4 pb-4 bg-black/5 backdrop-blur-xl">
+        <div className="flex items-center justify-between max-w-5xl mx-auto px-2 gap-1 sm:gap-4">
+          
+          {/* Lado Izquierdo: Botón Atrás */}
+          <button
+            onClick={onBack}
+            className="p-2.5 sm:p-3 rounded-2xl glass text-[#00B8A0] active:scale-90 transition-all shadow-lg shrink-0"
+          >
+            <ArrowLeft size={20} className="sm:w-[22px]" />
+          </button>
 
-        {/* Botón de Atrás */}
-        <button
-          onClick={onBack}
-          className="p-3 rounded-2xl glass text-[#00B8A0] active:scale-90 transition-all shadow-lg shrink-0"
-        >
-          <ArrowLeft size={22} />
-        </button>
+          {/* Centro: Título Adaptativo (Vertical en móvil, Horizontal en Desktop) */}
+          <div className="flex-1 flex flex-col items-center justify-center min-w-0 px-1">
+            <h2 className={`font-black tracking-tighter italic leading-[0.85] flex flex-col sm:flex-row items-center sm:gap-3
+              text-[7vw] xs:text-[6vw] sm:text-3xl md:text-5xl lg:text-6xl
+            `}>
+              <span className={theme === 'dark' ? 'text-white' : 'text-black'}>NUESTRO</span>
+              <span className="text-[#00B8A0]">CATÁLOGO</span>
+            </h2>
+            
+            {/* Tasa BCV (Solo se muestra aquí en móvil) */}
+            <div className="mt-2 sm:hidden px-2.5 py-0.5 rounded-full glass border border-[#00B8A0]/20 flex items-center gap-1.5 shrink-0">
+              <span className="text-[2.2vw] xs:text-[8px] font-black text-[#00B8A0] uppercase tracking-widest leading-none">Tasa BCV</span>
+              <span className={`text-[2.8vw] xs:text-[10px] font-bold leading-none ${theme === 'dark' ? 'text-white' : 'text-black'}`}>EURO</span>
+            </div>
+          </div>
 
-        {/* Título Centralizado - Tamaño aumentado */}
-        <div className="flex-1 flex justify-center items-center px-2 overflow-hidden">
-          <h2 className="text-l sm:text-4xl md:text-5xl font-black tracking-[ -0.05em] whitespace-nowrap flex gap-2 sm:gap-3 italic">
-            <span className={theme === 'dark' ? 'text-white' : 'text-black'}>
-              NUESTRO
-            </span>
-            <span className="text-[#00B8A0]">
-              CATÁLOGO
-            </span>
-          </h2>
-        </div>
-
-        {/* Cuadro Tasa BCV */}
-        <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl glass border border-[#00B8A0]/30 flex flex-col items-center justify-center shrink-0 min-w-[70px] sm:min-w-[100px]">
-          <span className="text-[7px] sm:text-[10px] font-black text-[#00B8A0] uppercase tracking-wider leading-none">Tasa BCV</span>
-          <span className={`text-[10px] sm:text-sm font-black ${theme === 'dark' ? 'text-white' : 'text-black'}`}>EURO</span>
+          {/* Lado Derecho: Tasa BCV (Desktop) + Espaciador equilibrado para móvil */}
+          <div className="flex items-center justify-end shrink-0 min-w-[42px] sm:min-w-[120px]">
+            <div className="hidden sm:flex px-3 py-1.5 rounded-2xl glass border border-[#00B8A0]/30 flex-col items-center justify-center min-w-[90px]">
+              <span className="text-[9px] font-black text-[#00B8A0] uppercase tracking-wider leading-none">Tasa BCV</span>
+              <span className={`text-xs font-black ${theme === 'dark' ? 'text-white' : 'text-black'}`}>EURO</span>
+            </div>
+            
+            <div className="sm:hidden w-1 h-1"></div>
+          </div>
         </div>
       </div>
 
       {/* Buscador y Filtros */}
-      <div className="w-full max-w-4xl space-y-6 mb-12">
-        <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00B8A0] opacity-50" size={20} />
+      <div className="w-full max-w-4xl space-y-6 mb-12 mt-8">
+        <div className="relative group px-2">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[#00B8A0] opacity-50" size={20} />
           <input
             type="text" placeholder="¿Qué estás buscando hoy?..."
             className={`w-full pl-12 pr-12 py-4 rounded-2xl glass border border-white/10 outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'text-white' : 'text-black'}`}
@@ -100,19 +109,20 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#00B8A0] hover:scale-110 active:scale-90 transition-all"
+              className="absolute right-6 top-1/2 -translate-y-1/2 text-[#00B8A0] hover:scale-110 active:scale-90 transition-all"
             >
               <X size={20} />
             </button>
           )}
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar justify-start sm:justify-center">
+        <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar justify-start sm:justify-center px-2">
           {categories.map((cat) => (
             <button
               key={cat} onClick={() => setSelectedCategory(cat)}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${selectedCategory === cat ? 'bg-[#00B8A0] text-black scale-105 shadow-lg shadow-[#00B8A0]/20' : 'glass opacity-50 hover:opacity-100'
-                }`}
+              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all shrink-0 ${
+                selectedCategory === cat ? 'bg-[#00B8A0] text-black scale-105 shadow-lg shadow-[#00B8A0]/20' : 'glass opacity-50 hover:opacity-100'
+              }`}
             >
               {cat}
             </button>
@@ -121,7 +131,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       </div>
 
       {/* Grid de Productos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full pb-20">
         {filteredProducts.map((product, index) => (
           <div
             key={product.id}
