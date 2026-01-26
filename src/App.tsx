@@ -1,11 +1,12 @@
 import { useState, useEffect, memo } from 'react';
 import logoDark from './assets/logodark.png';
 import logoLight from './assets/logolight.png';
-import { Instagram, ExternalLink, Send, Sun, Moon, Toolbox, Heart } from 'lucide-react'; // Añadí X
+import { Instagram, Send, Sun, Moon, Toolbox, Heart, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LinkCard } from './components/LinkCard';
 import { ParticlesBackground } from './components/ParticlesBackground'; 
 import { Catalogo } from './components/Catalogo'; 
+import { Promociones } from './components/Promociones'; // 1. Importar la nueva vista
 import type { UserConfig } from './types';
 
 const MemoizedParticles = memo(ParticlesBackground);
@@ -26,9 +27,8 @@ const DATA: UserConfig = {
 
 function App() {
   const [theme, setTheme] = useState('dark');
-  const [view, setView] = useState<'links' | 'catalogo'>('links');
-  // 1. Nuevo estado para el modal
-  const [showPromoModal, setShowPromoModal] = useState(false);
+  // 2. Actualizar el tipo de vista para incluir 'promos'
+  const [view, setView] = useState<'links' | 'catalogo' | 'promos'>('links');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -41,6 +41,7 @@ function App() {
     <main className="relative min-h-screen w-full flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 overflow-x-hidden overflow-y-auto transition-colors duration-500">
       <MemoizedParticles theme={theme} />
 
+      {/* Botón de Tema */}
       <button 
         onClick={toggleTheme}
         className="z-50 fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full glass hover:scale-110 active:scale-90 transition-all shadow-xl"
@@ -49,14 +50,14 @@ function App() {
       </button>
 
       <AnimatePresence mode="wait">
-        {view === 'links' ? (
+        {/* VISTA PRINCIPAL (LINKS) */}
+        {view === 'links' && (
           <motion.div 
             key="links"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="z-10 w-full max-w-[420px] flex flex-col items-center will-change-transform"
+            className="z-10 w-full max-w-[420px] flex flex-col items-center"
           >
             <header className="text-center mb-8 sm:mb-12 w-full">
               <div className={`relative w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-[#00B8A0]/30 flex items-center justify-center overflow-hidden shadow-2xl mx-auto ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
@@ -72,9 +73,9 @@ function App() {
                 <div 
                   key={link.id} 
                   onClick={() => {
-                    // 2. Lógica para abrir modal o catálogo
+                    // 3. Lógica de navegación actualizada
                     if (link.title === 'Catalogo') setView('catalogo');
-                    else if (link.title === 'Promociones') setShowPromoModal(true);
+                    else if (link.title === 'Promociones') setView('promos');
                     else window.open(link.url, '_blank');
                   }}
                   className="w-full cursor-pointer transition-transform active:scale-[0.98]"
@@ -93,14 +94,16 @@ function App() {
               <p className="text-[9px] tracking-[0.3em] uppercase opacity-25">&copy; {new Date().getFullYear()} Jferrer | MidNight Systems</p>
             </footer>
           </motion.div>
-        ) : (
+        )}
+
+        {/* VISTA CATÁLOGO */}
+        {view === 'catalogo' && (
           <motion.div
-            key="catalogo-wrapper"
+            key="catalogo"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4 }}
-            className="w-full flex justify-center will-change-transform"
+            className="w-full flex justify-center"
           >
             <Catalogo 
               theme={theme} 
@@ -108,48 +111,21 @@ function App() {
             />
           </motion.div>
         )}
-      </AnimatePresence>
 
-      {/* 3. Componente Modal de Promociones */}
-      <AnimatePresence>
-        {showPromoModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* Overlay (Fondo oscuro) */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowPromoModal(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        {/* VISTA PROMOCIONES (Nueva) */}
+        {view === 'promos' && (
+          <motion.div
+            key="promos"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="w-full flex justify-center"
+          >
+            <Promociones 
+              theme={theme} 
+              onBack={() => setView('links')} 
             />
-            
-            {/* Contenido del Modal */}
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className={`relative z-10 w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center glass border border-[#00B8A0]/20 ${theme === 'dark' ? 'bg-[#0f0f0f]/90' : 'bg-white/90'}`}
-            >
-              <div className="w-16 h-16 bg-[#00B8A0]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="text-[#00B8A0]" size={32} />
-              </div>
-              
-              <h2 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                ¡Próximamente!
-              </h2>
-              
-              <p className={`text-sm opacity-70 mb-8 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                Estamos preparando las mejores ofertas para ti. Vuelve pronto para no perdértelas.
-              </p>
-
-              <button
-                onClick={() => setShowPromoModal(false)}
-                className="w-full py-3 px-6 bg-[#00B8A0] hover:bg-[#009e8a] text-white font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-[#00B8A0]/20"
-              >
-                Volver al inicio
-              </button>
-            </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </main>

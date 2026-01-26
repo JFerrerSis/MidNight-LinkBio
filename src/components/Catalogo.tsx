@@ -57,30 +57,33 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       className="z-10 w-full max-w-7xl px-4 flex flex-col items-center min-h-screen relative"
     >
       {/* Header Fijo (Sticky) */}
-      <div className="sticky top-0 z-50 w-full pt-4 pb-4 bg-black/5 backdrop-blur-xl">
-        <div className="flex items-center justify-between max-w-5xl mx-auto px-2 gap-1 sm:gap-4">
-          
-          {/* Lado Izquierdo: Botón Atrás */}
+      {/* Header Fijo - Totalmente Transparente con Verde Esmeralda */}
+      <div className="sticky top-0 z-50 w-full pt-4 pb-4 bg-transparent backdrop-blur-sm transition-all duration-500">
+        <div className="flex items-center justify-between max-w-5xl mx-auto px-4 gap-1 sm:gap-4">
+
+          {/* Lado Izquierdo: Botón Atrás (Verde Esmeralda) */}
           <button
             onClick={onBack}
-            className="p-2.5 sm:p-3 rounded-2xl glass text-[#00B8A0] active:scale-90 transition-all shadow-lg shrink-0"
+            className={`p-2.5 sm:p-3 rounded-2xl transition-all shadow-lg shrink-0 active:scale-90 ${theme === 'dark'
+                ? 'glass text-[#00B8A0] shadow-black/20'
+                : 'bg-white/40 text-[#00B8A0] border border-white/20 backdrop-blur-md'
+              }`}
           >
             <ArrowLeft size={20} className="sm:w-[22px]" />
           </button>
 
-          {/* Centro: Título Adaptativo (Vertical en móvil, Horizontal en Desktop) */}
+          {/* Centro: Título Adaptativo */}
           <div className="flex-1 flex flex-col items-center justify-center min-w-0 px-1">
-            <h2 className={`font-black tracking-tighter italic leading-[0.85] flex flex-col sm:flex-row items-center sm:gap-3
-              text-[7vw] xs:text-[6vw] sm:text-3xl md:text-5xl lg:text-6xl
-            `}>
+            <h2 className="font-black tracking-tighter italic leading-[0.85] flex flex-col sm:flex-row items-center sm:gap-3
+        text-[7vw] xs:text-[6vw] sm:text-3xl md:text-5xl lg:text-6xl drop-shadow-sm">
               <span className={theme === 'dark' ? 'text-white' : 'text-black'}>NUESTRO</span>
-              <span className="text-[#00B8A0]">CATÁLOGO</span>
+              <span className="text-[#00B8A0]">CATALOGO</span>
             </h2>
-            
-        
           </div>
 
-          
+          {/* Lado Derecho: Espaciador para centrado perfecto */}
+          <div className="w-[45px] sm:w-[54px] invisible" />
+
         </div>
       </div>
 
@@ -108,9 +111,8 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
           {categories.map((cat) => (
             <button
               key={cat} onClick={() => setSelectedCategory(cat)}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all shrink-0 ${
-                selectedCategory === cat ? 'bg-[#00B8A0] text-black scale-105 shadow-lg shadow-[#00B8A0]/20' : 'glass opacity-50 hover:opacity-100'
-              }`}
+              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all shrink-0 ${selectedCategory === cat ? 'bg-[#00B8A0] text-black scale-105 shadow-lg shadow-[#00B8A0]/20' : 'glass opacity-50 hover:opacity-100'
+                }`}
             >
               {cat}
             </button>
