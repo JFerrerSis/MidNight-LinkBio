@@ -76,17 +76,11 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
               <span className={theme === 'dark' ? 'text-white' : 'text-black'}>NUESTRO</span>
               <span className="text-[#00B8A0]">CATÁLOGO</span>
             </h2>
+            
+        
           </div>
 
-          {/* Lado Derecho: Tasa BCV (Desktop) + Espaciador equilibrado para móvil */}
-          <div className="flex items-center justify-end shrink-0 min-w-[42px] sm:min-w-[120px]">
-            <div className="hidden sm:flex px-3 py-1.5 rounded-2xl glass border border-[#00B8A0]/30 flex-col items-center justify-center min-w-[90px]">
-              <span className="text-[9px] font-black text-[#00B8A0] uppercase tracking-wider leading-none">Tasa BCV</span>
-              <span className={`text-xs font-black ${theme === 'dark' ? 'text-white' : 'text-black'}`}>EURO</span>
-            </div>
-            
-            <div className="sm:hidden w-1 h-1"></div>
-          </div>
+          
         </div>
       </div>
 
