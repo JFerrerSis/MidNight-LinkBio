@@ -13,6 +13,7 @@ import over3 from '../assets/products/oversize_mayor.jpeg';
 import carta from '../assets/products/dft_carta.jpeg';
 import tabloide from '../assets/products/dft_tabloide.jpeg';
 import marca from '../assets/products/marcapaginas.jpeg';
+import promo from '../assets/products/promo.jpeg';
 
 export const PRODUCTS = [
   // --- FOTOGRAFÍA ---
@@ -81,6 +82,13 @@ export const PRODUCTS = [
     name: "Franela Oversize Estampada",
     price: "26.00",
     image: over,
+    category: "Textil"
+  },
+  {
+    id: 'PROMO-01',
+    name: "Promocion San Valentin - Franela Algodon Estampada x2",
+    price: "30.00",
+    image: promo,
     category: "Textil"
   },
   {
