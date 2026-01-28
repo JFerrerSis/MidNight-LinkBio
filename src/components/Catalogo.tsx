@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Search, Share2, X, Plus, Minus, Send, Phone, MapPin, Package, Truck, MessageSquare } from 'lucide-react';
 import { PRODUCTS } from '../types/products';
@@ -130,6 +130,20 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       }
     } catch (err) { console.log('Cancelado'); }
   };
+
+  // Bloquear scroll del fondo cuando el carrito está abierto
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Limpieza al desmontar el componente
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCartOpen]);
 
   return (
     <motion.div
