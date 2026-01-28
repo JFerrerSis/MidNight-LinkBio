@@ -69,6 +69,16 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
         }));
     };
 
+    const luna = "\u{1F319}";      // 🌙
+    const user = "\u{1F464}";      // 👤
+    const telf = "\u{1F4DE}";      // 📞
+    const pin = "\u{1F4CC}";       // 📍
+    const moto = "\u{1F6F5}";      // 🛵
+    const bolsa = "\u{1F6CD}";     // 🛍️
+    const dinero = "\u{1F4B5}";     // 💵
+    const notaEmoji = "\u{1F4DD}"; // 📝
+    const rayo = "\u{26A1}";       // ⚡
+
     const removeFromCart = (id: string) => {
         setCart(prev => prev.filter(item => item.product.id !== id));
     };
@@ -87,22 +97,23 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
         ).join('\n');
 
         const message = [
-            `*NUEVA PROMO - MIDNIGHT STUDIO* 🌙`,
+            `*NUEVO PEDIDO - MIDNIGHT STUDIO* ${luna}`,
             `----------------------------------`,
-            `👤 *Cliente:* ${nombre}`,
-            `📞 *Telf:* ${telefono}`,
-            `📍 *Dirección:* ${ciudad}`,
-            `🛵 *Método:* ${metodo}`,
+            `${user} *Cliente:* ${nombre}`,
+            `${telf} *Telf:* ${telefono}`,
+            `${pin} *Dirección:* ${ciudad}`,
+            `${moto} *Método:* ${metodo}`,
             `----------------------------------`,
-            `🛍️ *DETALLE:*`,
+            `${bolsa} *DETALLE:*`,
             productList,
             `----------------------------------`,
-            `💵 *TOTAL A PAGAR:* $${totalCart}`,
+            `${dinero} *TOTAL A PAGAR:* $${totalCart}`,
             `----------------------------------`,
-            notas ? `📝 *Notas:* ${notas}\n----------------------------------` : '',
-            `_Pedido enviado desde la sección de Promociones_`
+            notas ? `${notaEmoji} *Notas:* ${notas}\n----------------------------------` : '',
+            `*PAGO:* Acordaré el método de pago por aquí.`,
+            `----------------------------------`,
+            `_Enviado desde el catálogo digital ${rayo}_`
         ].filter(line => line !== '').join('\n');
-
         window.open(`https://wa.me/584246498029?text=${encodeURIComponent(message)}`, '_blank');
     };
 
@@ -130,20 +141,20 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
         } catch (err) { console.log('Cancelado'); }
     };
 
-    
-  // Bloquear scroll del fondo cuando el carrito está abierto
-  useEffect(() => {
-    if (isCartOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
 
-    // Limpieza al desmontar el componente
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isCartOpen]);
+    // Bloquear scroll del fondo cuando el carrito está abierto
+    useEffect(() => {
+        if (isCartOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Limpieza al desmontar el componente
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isCartOpen]);
 
     return (
         <motion.div
@@ -322,6 +333,16 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
                                             onChange={(e) => setCustomerData({ ...customerData, ciudad: e.target.value })} />
                                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                                     </div>
+
+                                    <div className="relative group col-span-2">
+                                        <textarea
+                                            placeholder="Notas adicionales..."
+                                            rows={1}
+                                            className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all resize-none ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
+                                            onChange={(e) => setCustomerData({ ...customerData, notas: e.target.value })}
+                                        />
+                                        <MessageSquare className="absolute left-3 top-3 opacity-30" size={14} />
+                                    </div>
                                 </div>
 
                                 {/* Métodos de Entrega Compactos */}
@@ -338,7 +359,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
                                 <div className={`p-2 rounded-lg border flex items-center gap-2 ${theme === 'dark' ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20' : 'bg-black/5 border-black/5'}`}>
                                     <MessageSquare size={12} className="text-[#00B8A0] shrink-0" />
                                     <p className="text-[9px] leading-tight text-white/60">
-                                        <span className="font-bold text-[#00B8A0] uppercase"> Metodo de Pago Acordado por WhatsApp.</span> 
+                                        <span className="font-bold text-[#00B8A0] uppercase"> Metodo de Pago Acordado por WhatsApp.</span>
                                     </p>
                                 </div>
 
