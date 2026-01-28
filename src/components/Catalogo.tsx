@@ -322,6 +322,19 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                     </button>
                   </div>
                 </div>
+                <div className={`mb-4 p-3 rounded-xl border flex items-center gap-3 ${
+                        theme === 'dark' 
+                        ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20 text-[#00B8A0]/80' 
+                        : 'bg-black/5 border-black/5 text-black/60'
+                    }`}>
+                        <div className="shrink-0">
+                            <MessageSquare size={16} className="text-[#00B8A0]" />
+                        </div>
+                        <p className="text-[10px] leading-tight font-medium">
+                            <span className="font-black uppercase block mb-0.5 text-[#00B8A0]">Métodos de Pago</span>
+                            Los detalles del pago se definen directamente por WhatsApp al concretar el pedido.
+                        </p>
+                    </div>
 
                 <div className="pt-2">
                   <div className="flex justify-between items-end mb-4">
