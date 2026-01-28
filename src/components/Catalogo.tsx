@@ -283,66 +283,64 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
               </div>
 
               {/* Formulario y Checkout */}
-              <div className={`p-4 sm:p-6 border-t space-y-4 ${theme === 'dark' ? 'bg-black/60 border-white/10' : 'bg-gray-50 border-black/10'}`}>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="relative group">
-                    <input type="text" placeholder="Nombre completo" className={`w-full p-3.5 pl-11 rounded-xl border text-sm outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white border-black/10'}`}
+              <div className={`p-4 border-t space-y-3 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-gray-50 border-black/10'}`}>
+                
+                {/* Grid de Datos Compacto */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="relative group col-span-1">
+                    <input type="text" placeholder="Nombre" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, nombre: e.target.value })} />
-                    <ArrowLeft className="absolute left-4 top-1/2 -translate-y-1/2 rotate-180 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
+                    <ArrowLeft className="absolute left-3 top-1/2 -translate-y-1/2 rotate-180 opacity-30" size={14} />
                   </div>
 
-                  <div className="relative group">
-                    <input type="tel" placeholder="Teléfono" className={`w-full p-3.5 pl-11 rounded-xl border text-sm outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white border-black/10'}`}
+                  <div className="relative group col-span-1">
+                    <input type="tel" placeholder="Teléfono" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, telefono: e.target.value })} />
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                   </div>
 
-                  <div className="relative group">
-                    <input type="text" placeholder="Dirección exacta" className={`w-full p-3.5 pl-11 rounded-xl border text-sm outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white border-black/10'}`}
+                  <div className="relative group col-span-2">
+                    <input type="text" placeholder="Dirección exacta" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, ciudad: e.target.value })} />
-                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                   </div>
 
-                  <div className="relative group">
+                  <div className="relative group col-span-2">
                     <textarea
-                      placeholder="Notas adicionales (opcional)..."
-                      rows={2}
-                      className={`w-full p-3.5 pl-11 rounded-xl border text-sm outline-none focus:border-[#00B8A0] transition-all resize-none ${theme === 'dark' ? 'bg-black/40 border-white/10' : 'bg-white border-black/10'}`}
+                      placeholder="Notas adicionales..."
+                      rows={1}
+                      className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all resize-none ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, notas: e.target.value })}
                     />
-                    <MessageSquare className="absolute left-4 top-4 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
-                  </div>
-
-                  <div className={`flex gap-2 p-1 rounded-2xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
-                    <button onClick={() => setCustomerData({ ...customerData, metodo: 'Delivery' })} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl transition-all text-[10px] font-black ${customerData.metodo === 'Delivery' ? 'bg-[#00B8A0] text-black shadow-lg' : 'opacity-40'}`}>
-                      <Truck size={14} /> DELIVERY
-                    </button>
-                    <button onClick={() => setCustomerData({ ...customerData, metodo: 'Pickup' })} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl transition-all text-[10px] font-black ${customerData.metodo === 'Pickup' ? 'bg-[#00B8A0] text-black shadow-lg' : 'opacity-40'}`}>
-                      <Package size={14} /> PICKUP
-                    </button>
+                    <MessageSquare className="absolute left-3 top-3 opacity-30" size={14} />
                   </div>
                 </div>
-                <div className={`mb-4 p-3 rounded-xl border flex items-center gap-3 ${
-                        theme === 'dark' 
-                        ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20 text-[#00B8A0]/80' 
-                        : 'bg-black/5 border-black/5 text-black/60'
-                    }`}>
-                        <div className="shrink-0">
-                            <MessageSquare size={16} className="text-[#00B8A0]" />
-                        </div>
-                        <p className="text-[10px] leading-tight font-medium">
-                            <span className="font-black uppercase block mb-0.5 text-[#00B8A0]">Métodos de Pago</span>
-                            Los detalles del pago se definen directamente por WhatsApp al concretar el pedido.
-                        </p>
-                    </div>
 
-                <div className="pt-2">
-                  <div className="flex justify-between items-end mb-4">
-                    <span className="text-[10px] font-black uppercase opacity-40 mb-1">Total del pedido</span>
-                    <span className="text-3xl font-black text-[#00B8A0] leading-none">${totalCart}</span>
+                {/* Métodos de Entrega */}
+                <div className={`flex gap-1 p-1 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
+                  <button onClick={() => setCustomerData({ ...customerData, metodo: 'Delivery' })} className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-[10px] font-black ${customerData.metodo === 'Delivery' ? 'bg-[#00B8A0] text-black shadow-sm' : 'opacity-40'}`}>
+                    <Truck size={12} /> DELIVERY
+                  </button>
+                  <button onClick={() => setCustomerData({ ...customerData, metodo: 'Pickup' })} className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-[10px] font-black ${customerData.metodo === 'Pickup' ? 'bg-[#00B8A0] text-black shadow-sm' : 'opacity-40'}`}>
+                    <Package size={12} /> PICKUP
+                  </button>
+                </div>
+                {/* Nota de Pago Compacta */}
+                <div className={`p-2 rounded-lg border flex items-center gap-2 ${theme === 'dark' ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20' : 'bg-black/5 border-black/5'}`}>
+                  <MessageSquare size={12} className="text-[#00B8A0] shrink-0" />
+                  <p className="text-[9px] leading-tight text-white/60">
+                    <span className="font-bold text-[#00B8A0] uppercase"> Metodo de Pago Acordado por WhatsApp.</span>
+                  </p>
+                </div>
+
+                {/* Footer en una sola fila */}
+                <div className="pt-2 flex items-center justify-between gap-3 border-t border-white/5 mt-1">
+                  <div className="flex flex-col">
+                    <span className="text-[8px] font-black uppercase opacity-40 leading-none">Total</span>
+                    <span className="text-xl font-black text-[#00B8A0] leading-none">${totalCart}</span>
                   </div>
-                  <button onClick={sendOrder} className="w-full py-4 bg-[#00B8A0] text-black font-black rounded-2xl shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all hover:brightness-110">
-                    ENVIAR a WHATSAPP <Send size={20} />
+                  <button onClick={sendOrder} className="flex-1 py-3 bg-[#00B8A0] text-black font-black rounded-xl shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-all hover:brightness-110 text-[11px]">
+                    ENVIAR PEDIDO <Send size={14} />
                   </button>
                 </div>
               </div>
