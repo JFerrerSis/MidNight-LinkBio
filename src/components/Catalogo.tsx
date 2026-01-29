@@ -97,7 +97,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       `_Enviado desde el catálogo digital ${rayo}_`
     ].filter(line => line !== '').join('\n');
 
-    const whatsappUrl = `https://wa.me/584246498029?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/584246334784?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

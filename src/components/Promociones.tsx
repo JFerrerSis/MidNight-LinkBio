@@ -114,7 +114,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
             `----------------------------------`,
             `_Enviado desde el catálogo digital ${rayo}_`
         ].filter(line => line !== '').join('\n');
-        window.open(`https://wa.me/584246498029?text=${encodeURIComponent(message)}`, '_blank');
+        window.open(`https://wa.me/584246334784?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     const promoProducts = useMemo(() => {

@@ -17,7 +17,7 @@ const DATA: UserConfig = {
   bio: "Creatividad sin límites 🎨 Estampados • Tazas • Fotos • Diseño digital hecho realidad ✨ Delivery & Pick up🛵.",
   avatar: "", 
   links: [
-    { id: '1', title: 'WhatsApp', url: 'https://wa.me/584246498029?text=Hola!%20MidNight%20Vengo%20de%20Instagram%20y%20estoy%20interesad@%20en%20tus%20servicios', icon: Send },
+    { id: '1', title: 'WhatsApp', url: 'https://wa.me/584246334784?text=Hola!%20MidNight%20Vengo%20de%20Instagram%20y%20estoy%20interesad@%20en%20tus%20servicios', icon: Send },
     { id: '2', title: 'Catalogo', url: '#', icon: ExternalLink },
     { id: '3', title: 'Promociones', url: '#', icon: Heart },
     { id: '4', title: 'Instagram', url: 'https://www.instagram.com/midnighttstudio/.', icon: Instagram },
