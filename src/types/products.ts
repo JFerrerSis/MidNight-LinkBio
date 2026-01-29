@@ -14,6 +14,8 @@ import carta from '../assets/products/dft_carta.jpeg';
 import tabloide from '../assets/products/dft_tabloide.jpeg';
 import marca from '../assets/products/marcapaginas.jpeg';
 import promo from '../assets/products/promo.jpeg';
+import poster from '../assets/products/poster.jpeg';
+
 
 export const PRODUCTS = [
   // --- FOTOGRAFÍA ---
@@ -121,6 +123,14 @@ export const PRODUCTS = [
     name: "Marcapáginas Personalizado",
     price: "2.00",
     image: marca,
+    category: "Papelería"
+  },
+
+  {
+    id: '00016',
+    name: "POSTER EN PAPEL FOTOGRAFICO A4 X 3 Personalizado",
+    price: "2.50",
+    image: poster,
     category: "Papelería"
   },
 ];
