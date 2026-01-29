@@ -128,7 +128,7 @@ export const PRODUCTS = [
 
   {
     id: '00016',
-    name: "POSTER EN PAPEL FOTOGRAFICO A4 X 3 Personalizado",
+    name: "POSTER EN PAPEL FOTOGRAFICO A4 X 3 ",
     price: "2.50",
     image: poster,
     category: "Papelería"
