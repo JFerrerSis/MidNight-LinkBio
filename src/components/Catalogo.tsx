@@ -25,6 +25,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
     ciudad: '',
     telefono: '',
     metodo: 'Delivery',
+    pago: 'Dólares Efectivo', // Nuevo campo
     notas: ''
   });
 
@@ -57,13 +58,14 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
   const totalCart = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
 
   const sendOrder = () => {
-    const { nombre, ciudad, telefono, metodo, notas } = customerData;
+    const { nombre, ciudad, telefono, metodo, pago, notas } = customerData; // 'pago' viene del estado
 
     if (!nombre || !ciudad || !telefono) {
       alert("Por favor, completa los campos obligatorios ⚡");
       return;
     }
 
+    // Emojis
     const luna = "\u{1F319}";      // 🌙
     const user = "\u{1F464}";      // 👤
     const telf = "\u{1F4DE}";      // 📞
@@ -72,6 +74,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
     const bolsa = "\u{1F6CD}";     // 🛍️
     const dinero = "\u{1F4B5}";     // 💵
     const notaEmoji = "\u{1F4DD}"; // 📝
+    const cardEmoji = "\u{1F4B3}"; // 💳
     const rayo = "\u{26A1}";       // ⚡
 
     const productList = cart.map(item =>
@@ -84,7 +87,8 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       `${user} *Cliente:* ${nombre}`,
       `${telf} *Telf:* ${telefono}`,
       `${pin} *Dirección:* ${ciudad}`,
-      `${moto} *Método:* ${metodo}`,
+      `${moto} *Entrega:* ${metodo}`,
+      `${cardEmoji} *Pago:* ${pago}`, // Muestra el método seleccionado
       `----------------------------------`,
       `${bolsa} *DETALLE:*`,
       productList,
@@ -92,8 +96,6 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       `${dinero} *TOTAL A PAGAR:* $${totalCart}`,
       `----------------------------------`,
       notas ? `${notaEmoji} *Notas:* ${notas}\n----------------------------------` : '',
-      `*PAGO:* Acordaré el método de pago por aquí.`,
-      `----------------------------------`,
       `_Enviado desde el catálogo digital ${rayo}_`
     ].filter(line => line !== '').join('\n');
 
@@ -256,8 +258,8 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className={`relative z-[110] p-3 rounded-xl transition-all active:scale-95 group border ${theme === 'dark'
-                      ? 'bg-[#00B8A0]/10 border-[#00B8A0]/30 text-[#00B8A0] hover:bg-[#00B8A0]/20'
-                      : 'bg-black/5 border-black/10 text-black hover:bg-black/10'
+                    ? 'bg-[#00B8A0]/10 border-[#00B8A0]/30 text-[#00B8A0] hover:bg-[#00B8A0]/20'
+                    : 'bg-black/5 border-black/10 text-black hover:bg-black/10'
                     }`}
                 >
                   <X size={22} strokeWidth={3} className="drop-shadow-[0_0_8px_rgba(0,184,160,0.4)]" />
@@ -298,7 +300,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
 
               {/* Formulario y Checkout */}
               <div className={`p-4 border-t space-y-3 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-gray-50 border-black/10'}`}>
-                
+
                 {/* Grid de Datos Compacto */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="relative group col-span-1">
@@ -339,11 +341,39 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                     <Package size={12} /> PICKUP
                   </button>
                 </div>
-                {/* Nota de Pago Compacta */}
-                <div className={`p-2 rounded-lg border flex items-center gap-2 ${theme === 'dark' ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20' : 'bg-black/5 border-black/5'}`}>
-                  <MessageSquare size={12} className="text-[#00B8A0] shrink-0" />
-                  <p className="text-[9px] leading-tight text-white/60">
-                    <span className="font-bold text-[#00B8A0] uppercase"> Metodo de Pago Acordado por WhatsApp.</span>
+                {/* Selector de Métodos de Pago */}
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black opacity-40 uppercase ml-1">Selecciona Método de Pago</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: 'Dólares Efectivo', icon: '💵' },
+                      { id: 'Pago Móvil', icon: '📱' },
+                      { id: 'Binance', icon: '🔶' }
+                    ].map((m) => (
+                      <button
+                        key={m.id}
+                        onClick={() => setCustomerData({ ...customerData, pago: m.id })}
+                        className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all active:scale-95 ${customerData.pago === m.id
+                            ? 'bg-[#00B8A0] border-[#00B8A0] text-black shadow-lg shadow-[#00B8A0]/20'
+                            : theme === 'dark'
+                              ? 'bg-white/5 border-white/10 text-white/50'
+                              : 'bg-black/5 border-black/10 text-black/50'
+                          }`}
+                      >
+                        <span className="text-lg mb-1">{m.icon}</span>
+                        <span className="text-[8px] font-black uppercase tracking-tighter leading-none">{m.id}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Aviso dinámico según selección */}
+                <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${theme === 'dark' ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20' : 'bg-black/5 border-black/5'}`}>
+                  <MessageSquare size={14} className="text-[#00B8A0]" />
+                  <p className="text-[9px] leading-tight opacity-70">
+                    {customerData.pago === 'Pago Móvil' || customerData.pago === 'Binance'
+                      ? 'Al enviar el pedido, te suministraremos los datos para realizar la transferencia.'
+                      : 'Ten el monto exacto disponible al momento de la entrega (Pasar foto del billete).'}
                   </p>
                 </div>
 
