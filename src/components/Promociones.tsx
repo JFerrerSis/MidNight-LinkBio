@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Search, Share2, X, Heart, Plus, Minus, Send, Phone, MapPin, Package, Truck, MessageSquare } from 'lucide-react';
 import { PRODUCTS } from '../types/products';
+import { ValentineTimer } from './ValentineTimer';
 
 // Componente de partículas optimizado
 const HeartParticles = () => {
@@ -33,6 +34,7 @@ const HeartParticles = () => {
 };
 
 export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: string }) => {
+    const [showOverlay, setShowOverlay] = useState(true); // Control del overlay
     const [searchTerm, setSearchTerm] = useState('');
     const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
     const [cart, setCart] = useState<{ product: any, quantity: number }[]>([]);
@@ -42,9 +44,15 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
         ciudad: '',
         telefono: '',
         metodo: 'Delivery',
-        pago: 'Dólares Efectivo', // Nuevo campo
+        pago: 'Dólares Efectivo',
         notas: ''
     });
+
+    // Efecto para el temporizador inicial
+    useEffect(() => {
+        const timer = setTimeout(() => setShowOverlay(false), 3500);
+        return () => clearTimeout(timer);
+    }, []);
 
     // --- LÓGICA DEL CARRITO ---
     const addToCart = (product: any) => {
@@ -76,37 +84,38 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
     const totalCart = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
 
     // --- ENVÍO A WHATSAPP ---
-const sendOrder = () => {
-    const { nombre, ciudad, telefono, metodo, pago, notas } = customerData;
-    if (!nombre || !ciudad || !telefono) {
-        alert("Por favor, completa los campos obligatorios para procesar tu promo ⚡");
-        return;
-    }
+    const sendOrder = () => {
+        const { nombre, ciudad, telefono, metodo, pago, notas } = customerData;
+        if (!nombre || !ciudad || !telefono) {
+            alert("Por favor, completa los campos obligatorios para procesar tu promo ⚡");
+            return;
+        }
 
-    const productList = cart.map(item =>
-        `• *${item.product.name}* (x${item.quantity}) - $${item.product.price * item.quantity}`
-    ).join('\n');
+        const productList = cart.map(item =>
+            `• *${item.product.name}* (x${item.quantity}) - $${item.product.price * item.quantity}`
+        ).join('\n');
 
-    const message = [
-        `*NUEVA PROMO - MIDNIGHT STUDIO* 🌙`,
-        `----------------------------------`,
-        `👤 *Cliente:* ${nombre}`,
-        `📞 *Telf:* ${telefono}`,
-        `📍 *Dirección:* ${ciudad}`,
-        `🛵 *Entrega:* ${metodo}`,
-        `💳 *Pago:* ${pago}`, // Se integra aquí
-        `----------------------------------`,
-        `🛍️ *DETALLE:*`,
-        productList,
-        `----------------------------------`,
-        `💵 *TOTAL A PAGAR:* $${totalCart}`,
-        `----------------------------------`,
-        notas ? `📝 *Notas:* ${notas}\n----------------------------------` : '',
-        `_Enviado desde la sección de promos ⚡_`
-    ].filter(line => line !== '').join('\n');
-    
-    window.open(`https://wa.me/584246334784?text=${encodeURIComponent(message)}`, '_blank');
-};
+        const message = [
+            `*NUEVA PROMO - MIDNIGHT STUDIO* 🌙`,
+            `----------------------------------`,
+            `👤 *Cliente:* ${nombre}`,
+            `📞 *Telf:* ${telefono}`,
+            `📍 *Dirección:* ${ciudad}`,
+            `🛵 *Entrega:* ${metodo}`,
+            `💳 *Pago:* ${pago}`,
+            `----------------------------------`,
+            `🛍️ *DETALLE:*`,
+            productList,
+            `----------------------------------`,
+            `💵 *TOTAL A PAGAR:* $${totalCart}`,
+            `----------------------------------`,
+            notas ? `📝 *Notas:* ${notas}\n----------------------------------` : '',
+            `_Enviado desde la sección de promos ⚡_`
+        ].filter(line => line !== '').join('\n');
+        
+        window.open(`https://wa.me/584246334784?text=${encodeURIComponent(message)}`, '_blank');
+    };
+
     // --- FILTRADO DE PROMOS ---
     const promoProducts = useMemo(() => {
         const term = searchTerm.toLowerCase().trim();
@@ -134,9 +143,9 @@ const sendOrder = () => {
     };
 
     useEffect(() => {
-        document.body.style.overflow = isCartOpen ? 'hidden' : 'unset';
+        document.body.style.overflow = (isCartOpen || showOverlay) ? 'hidden' : 'unset';
         return () => { document.body.style.overflow = 'unset'; };
-    }, [isCartOpen]);
+    }, [isCartOpen, showOverlay]);
 
     return (
         <motion.div
@@ -145,19 +154,49 @@ const sendOrder = () => {
         >
             <HeartParticles />
 
+            {/* Overlay de Tiempo Inicial */}
+            <AnimatePresence>
+                {showOverlay && (
+                    <motion.div
+                        key="valentine-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+                        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl text-center"
+                    >
+                        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+                            <h2 className="text-[#00B8A0] font-black tracking-[0.4em] text-xs mb-6 uppercase">Ofertas por tiempo limitado</h2>
+                            <h1 className="text-white text-5xl sm:text-7xl font-black italic mb-10 leading-[0.8]">
+                                QUEDA <br/><span className="text-[#00B8A0]">POCO</span>
+                            </h1>
+                            <ValentineTimer theme="dark" variant="overlay" />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Header */}
             <header className={`sticky top-0 z-50 w-full pt-4 pb-4 bg-transparent backdrop-blur-sm transition-opacity ${isCartOpen ? 'opacity-0' : 'opacity-100'}`}>
-                <div className="flex items-center justify-between max-w-5xl mx-auto px-4 gap-2">
-                    <button onClick={onBack} className={`p-3 rounded-2xl transition-all active:scale-90 ${theme === 'dark' ? 'glass text-[#00B8A0] shadow-lg shadow-black/20' : 'bg-white/40 text-[#00B8A0] border border-white/20 shadow-sm'}`}>
-                        <ArrowLeft size={20} />
-                    </button>
-                    <div className="flex-1 text-center">
-                        <h2 className={`font-black tracking-tighter italic flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-3 text-[8vw] sm:text-5xl drop-shadow-sm leading-none`}>
-                            <span className={theme === 'dark' ? 'text-white' : 'text-black'}>NUESTRAS</span>
-                            <span className="text-[#00B8A0]">PROMOS</span>
-                        </h2>
+                <div className="flex flex-col items-center gap-3 max-w-5xl mx-auto px-4">
+                    <div className="flex items-center justify-between w-full gap-2">
+                        <button onClick={onBack} className={`p-3 rounded-2xl transition-all active:scale-90 ${theme === 'dark' ? 'glass text-[#00B8A0] shadow-lg shadow-black/20' : 'bg-white/40 text-[#00B8A0] border border-white/20 shadow-sm'}`}>
+                            <ArrowLeft size={20} />
+                        </button>
+                        <div className="flex-1 text-center">
+                            <h2 className={`font-black tracking-tighter italic flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-3 text-[8vw] sm:text-5xl drop-shadow-sm leading-none`}>
+                                <span className={theme === 'dark' ? 'text-white' : 'text-black'}>NUESTRAS</span>
+                                <span className="text-[#00B8A0]">PROMOS</span>
+                            </h2>
+                        </div>
+                        <div className="w-12 invisible" />
                     </div>
-                    <div className="w-12 invisible" />
+
+                    {/* Mini Timer en Header */}
+                    {!showOverlay && (
+                        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className={`px-4 py-1 rounded-full border ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'}`}>
+                            <ValentineTimer theme={theme} variant="mini" />
+                        </motion.div>
+                    )}
                 </div>
             </header>
 
@@ -251,7 +290,6 @@ const sendOrder = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className={`relative w-full sm:max-w-md h-[100dvh] sm:h-full flex flex-col border-l transition-colors backdrop-blur-xl ${theme === 'dark' ? 'bg-black border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
             >
-              {/* Header Carrito - X Izquierda y Título Centrado */}
               <div className={`p-4 sm:p-6 flex items-center border-b relative ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
                 <button
                   onClick={() => setIsCartOpen(false)}
@@ -275,7 +313,6 @@ const sendOrder = () => {
                 <div className="w-[48px] sm:w-[50px]" />
               </div>
 
-              {/* Lista de Productos */}
               <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 no-scrollbar">
                 {cart.map((item) => (
                   <div key={item.product.id} className={`flex gap-4 p-3 rounded-2xl items-center border ${theme === 'dark' ? 'bg-white/5 border-white/5' : 'bg-black/5 border-black/5'}`}>
@@ -296,10 +333,7 @@ const sendOrder = () => {
                 ))}
               </div>
 
-              {/* Formulario y Checkout */}
               <div className={`p-4 border-t space-y-3 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-gray-50 border-black/10'}`}>
-
-                {/* Grid de Datos Compacto */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="relative group col-span-1">
                     <input type="text" placeholder="Nombre" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
@@ -330,7 +364,6 @@ const sendOrder = () => {
                   </div>
                 </div>
 
-                {/* Métodos de Entrega */}
                 <div className={`flex gap-1 p-1 rounded-xl ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
                   <button onClick={() => setCustomerData({ ...customerData, metodo: 'Delivery' })} className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-[10px] font-black ${customerData.metodo === 'Delivery' ? 'bg-[#00B8A0] text-black shadow-sm' : 'opacity-40'}`}>
                     <Truck size={12} /> DELIVERY
@@ -339,7 +372,7 @@ const sendOrder = () => {
                     <Package size={12} /> PICKUP
                   </button>
                 </div>
-                {/* Selector de Métodos de Pago */}
+
                 <div className="space-y-2">
                   <p className="text-[10px] font-black opacity-40 uppercase ml-1">Selecciona Método de Pago</p>
                   <div className="grid grid-cols-3 gap-2">
@@ -365,17 +398,6 @@ const sendOrder = () => {
                   </div>
                 </div>
 
-                {/* Aviso dinámico según selección */}
-                <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${theme === 'dark' ? 'bg-[#00B8A0]/5 border-[#00B8A0]/20' : 'bg-black/5 border-black/5'}`}>
-                  <MessageSquare size={14} className="text-[#00B8A0]" />
-                  <p className="text-[9px] leading-tight opacity-70">
-                    {customerData.pago === 'Pago Móvil' || customerData.pago === 'Binance'
-                      ? 'Al enviar el pedido, te suministraremos los datos para realizar la transferencia.'
-                      : 'Ten el monto exacto disponible al momento de la entrega (Pasar foto del billete).'}
-                  </p>
-                </div>
-
-                {/* Footer en una sola fila */}
                 <div className="pt-2 flex items-center justify-between gap-3 border-t border-white/5 mt-1">
                   <div className="flex flex-col">
                     <span className="text-[8px] font-black uppercase opacity-40 leading-none">Total</span>
