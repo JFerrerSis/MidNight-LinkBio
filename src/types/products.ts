@@ -15,6 +15,7 @@ import tabloide from '../assets/products/dft_tabloide.jpeg';
 import marca from '../assets/products/marcapaginas.jpeg';
 import promo from '../assets/products/promo.jpeg';
 import poster from '../assets/products/poster.jpeg';
+import promo2 from '../assets/products/Tvalentine.jpg';
 
 
 export const PRODUCTS = [
@@ -61,6 +62,13 @@ export const PRODUCTS = [
     name: "Tazas Mágicas Negras Estampada",
     price: "8.00",
     image: tazaM,
+    category: "Tazas"
+  },
+  {
+    id: 'PROMO02',
+    name: "Promocion San Valentin - Taza Blanca Estampada x 2",
+    price: "10.00",
+    image: promo2,
     category: "Tazas"
   },
 
