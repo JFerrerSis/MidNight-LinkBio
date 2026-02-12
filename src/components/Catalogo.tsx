@@ -22,6 +22,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [customerData, setCustomerData] = useState({
     nombre: '',
+    cedula: '', // <--- Nuevo campo
     ciudad: '',
     telefono: '',
     metodo: 'Delivery',
@@ -58,8 +59,19 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
   const totalCart = cart.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
 
   const sendOrder = () => {
-    const { nombre, ciudad, telefono, metodo, pago, notas } = customerData; // 'pago' viene del estado
+    const { nombre, cedula, ciudad, telefono, metodo, pago, notas } = customerData; // 'pago' viene del estado
+    // Validación de Cédula (V o J + hasta 8 números)
+    const cedulaRegex = /^[VvJj]\d{1,8}$/;
 
+    if (!nombre || !ciudad || !telefono || !cedula) {
+      alert("Por favor, completa los campos obligatorios ⚡");
+      return;
+    }
+
+    if (!cedulaRegex.test(cedula)) {
+      alert("La cédula/RIF debe empezar por V o J seguido de hasta 8 números (Ej: V12345678)");
+      return;
+    }
     if (!nombre || !ciudad || !telefono) {
       alert("Por favor, completa los campos obligatorios ⚡");
       return;
@@ -75,6 +87,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
     const dinero = "\u{1F4B5}";     // 💵
     const notaEmoji = "\u{1F4DD}"; // 📝
     const cardEmoji = "\u{1F4B3}"; // 💳
+    const idCard = "\u{1F3AB}"; // 🎫 Emoji de ticket/ID
     const rayo = "\u{26A1}";       // ⚡
 
     const productList = cart.map(item =>
@@ -85,6 +98,7 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
       `*NUEVO PEDIDO - MIDNIGHT STUDIO* ${luna}`,
       `----------------------------------`,
       `${user} *Cliente:* ${nombre}`,
+      `${idCard} *Cédula/RIF:* ${cedula.toUpperCase()}`, // <--- Inclusión en el mensaje
       `${telf} *Telf:* ${telefono}`,
       `${pin} *Dirección:* ${ciudad}`,
       `${moto} *Entrega:* ${metodo}`,
@@ -302,7 +316,10 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
               <div className={`p-4 border-t space-y-3 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-gray-50 border-black/10'}`}>
 
                 {/* Grid de Datos Compacto */}
+                {/* Grid de Datos Compacto y Ordenado */}
                 <div className="grid grid-cols-2 gap-2">
+
+                  {/* Fila 1: Nombre y Cédula */}
                   <div className="relative group col-span-1">
                     <input type="text" placeholder="Nombre" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, nombre: e.target.value })} />
@@ -310,20 +327,36 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                   </div>
 
                   <div className="relative group col-span-1">
-                    <input type="tel" placeholder="Teléfono" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
+                    <input type="text" placeholder="V-12345678" maxLength={9} className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        if (val === '' || /^[VJ]\d{0,8}$/.test(val)) {
+                          setCustomerData({ ...customerData, cedula: val });
+                        }
+                      }}
+                      value={customerData.cedula}
+                    />
+                    <Package className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
+                  </div>
+
+                  {/* Fila 2: Teléfono (Ahora ocupa todo el ancho) */}
+                  <div className="relative group col-span-2">
+                    <input type="tel" placeholder="Teléfono de contacto" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, telefono: e.target.value })} />
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                   </div>
 
+                  {/* Fila 3: Dirección */}
                   <div className="relative group col-span-2">
                     <input type="text" placeholder="Dirección exacta" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, ciudad: e.target.value })} />
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                   </div>
 
+                  {/* Fila 4: Notas */}
                   <div className="relative group col-span-2">
                     <textarea
-                      placeholder="Notas adicionales..."
+                      placeholder="Notas adicionales (Piso, apto, punto de referencia...)"
                       rows={1}
                       className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all resize-none ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, notas: e.target.value })}
@@ -354,10 +387,10 @@ export const Catalogo = ({ onBack, theme }: { onBack: () => void, theme: string 
                         key={m.id}
                         onClick={() => setCustomerData({ ...customerData, pago: m.id })}
                         className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all active:scale-95 ${customerData.pago === m.id
-                            ? 'bg-[#00B8A0] border-[#00B8A0] text-black shadow-lg shadow-[#00B8A0]/20'
-                            : theme === 'dark'
-                              ? 'bg-white/5 border-white/10 text-white/50'
-                              : 'bg-black/5 border-black/10 text-black/50'
+                          ? 'bg-[#00B8A0] border-[#00B8A0] text-black shadow-lg shadow-[#00B8A0]/20'
+                          : theme === 'dark'
+                            ? 'bg-white/5 border-white/10 text-white/50'
+                            : 'bg-black/5 border-black/10 text-black/50'
                           }`}
                       >
                         <span className="text-lg mb-1">{m.icon}</span>

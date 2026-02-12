@@ -41,6 +41,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [customerData, setCustomerData] = useState({
         nombre: '',
+        cedula: '',
         ciudad: '',
         telefono: '',
         metodo: 'Delivery',
@@ -85,7 +86,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
 
     // --- ENVÍO A WHATSAPP ---
     const sendOrder = () => {
-        const { nombre, ciudad, telefono, metodo, pago, notas } = customerData;
+        const { nombre, cedula, ciudad, telefono, metodo, pago, notas } = customerData;
         if (!nombre || !ciudad || !telefono) {
             alert("Por favor, completa los campos obligatorios para procesar tu promo ⚡");
             return;
@@ -99,6 +100,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
             `*NUEVA PROMO - MIDNIGHT STUDIO* 🌙`,
             `----------------------------------`,
             `👤 *Cliente:* ${nombre}`,
+            `🪪 *Cédula:* ${cedula}`,
             `📞 *Telf:* ${telefono}`,
             `📍 *Dirección:* ${ciudad}`,
             `🛵 *Entrega:* ${metodo}`,
@@ -109,7 +111,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
             `----------------------------------`,
             `💵 *TOTAL A PAGAR:* $${totalCart}`,
             `----------------------------------`,
-            notas ? `📝 *Notas:* ${notas}\n----------------------------------` : '',
+            `📝 *Notas:* ${notas ? notas : 'Ninguna'}\n----------------------------------`,
             `_Enviado desde la sección de promos ⚡_`
         ].filter(line => line !== '').join('\n');
         
@@ -334,6 +336,7 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
               </div>
 
               <div className={`p-4 border-t space-y-3 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-gray-50 border-black/10'}`}>
+                {/* Formulario Optimizado */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="relative group col-span-1">
                     <input type="text" placeholder="Nombre" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
@@ -342,7 +345,13 @@ export const Promociones = ({ onBack, theme }: { onBack: () => void, theme: stri
                   </div>
 
                   <div className="relative group col-span-1">
-                    <input type="tel" placeholder="Teléfono" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
+                    <input type="text" placeholder="V-12345678" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
+                      onChange={(e) => setCustomerData({ ...customerData, cedula: e.target.value.toUpperCase() })} />
+                    <Package className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
+                  </div>
+
+                  <div className="relative group col-span-2">
+                    <input type="tel" placeholder="Teléfono de contacto" className={`w-full p-2.5 pl-9 rounded-xl border text-xs outline-none focus:border-[#00B8A0] transition-all ${theme === 'dark' ? 'bg-black/40 border-white/10 text-white' : 'bg-white border-black/10 text-black'}`}
                       onChange={(e) => setCustomerData({ ...customerData, telefono: e.target.value })} />
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={14} />
                   </div>
