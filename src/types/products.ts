@@ -64,13 +64,13 @@ export const PRODUCTS = [
     image: tazaM,
     category: "Tazas"
   },
-  {
-    id: 'PROMO02',
-    name: "Promocion San Valentin - Taza Blanca Estampada x 2",
-    price: "10.00",
-    image: promo2,
-    category: "Tazas"
-  },
+  // {
+  //   id: 'PROMO02',
+  //   name: "Promocion San Valentin - Taza Blanca Estampada x 2",
+  //   price: "10.00",
+  //   image: promo2,
+  //   category: "Tazas"
+  // },
 
   // --- TEXTIL ---
   {
@@ -94,13 +94,13 @@ export const PRODUCTS = [
     image: over,
     category: "Textil"
   },
-  {
-    id: 'PROMO-01',
-    name: "Promocion San Valentin - Franela Algodon Estampada x2",
-    price: "30.00",
-    image: promo,
-    category: "Textil"
-  },
+  // {
+  //   id: 'PROMO-01',
+  //   name: "Promocion San Valentin - Franela Algodon Estampada x2",
+  //   price: "30.00",
+  //   image: promo,
+  //   category: "Textil"
+  // },
   {
     id: '00013',
     name: "Oversize Estampada (Mayor a 3 piezas)",

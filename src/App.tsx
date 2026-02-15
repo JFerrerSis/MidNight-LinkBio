@@ -7,6 +7,8 @@ import { LinkCard } from './components/LinkCard';
 import { ParticlesBackground } from './components/ParticlesBackground'; 
 import { Catalogo } from './components/Catalogo'; 
 import { Promociones } from './components/Promociones'; // 1. Importar la nueva vista
+import { Proximante } from './components/Proximamente';
+
 import type { UserConfig } from './types';
 
 const MemoizedParticles = memo(ParticlesBackground);
@@ -121,10 +123,16 @@ function App() {
             exit={{ opacity: 0, scale: 0.9 }}
             className="w-full flex justify-center"
           >
-            <Promociones 
+            {/* <Promociones 
+              theme={theme} 
+              onBack={() => setView('links')} 
+            /> */}
+
+               <Proximante 
               theme={theme} 
               onBack={() => setView('links')} 
             />
+
           </motion.div>
         )}
       </AnimatePresence>
